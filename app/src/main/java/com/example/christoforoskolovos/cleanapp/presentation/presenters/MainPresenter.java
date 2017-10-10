@@ -1,8 +1,14 @@
 package com.example.christoforoskolovos.cleanapp.presentation.presenters;
 
-import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
+import android.location.Location;
 
-public class MainPresenter extends BasePresenter implements Presenter{
+import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
+import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
+import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
+import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
+import com.google.android.gms.maps.model.LatLng;
+
+public class MainPresenter extends BasePresenter implements Presenter {
 
     /*-------------------- Variables --------------------*/
     protected MainScreen screen;
@@ -17,11 +23,23 @@ public class MainPresenter extends BasePresenter implements Presenter{
     public void initialize() {
     }
 
+    /*-------------------- Other Methods --------------------*/
+    public void onMapStopMoving(LatLng target) {
+        new FoursquareNearbyVenuesUseCase(
+                FoursquareRepository.getInstance(),
+                target.latitude,
+                target.longitude,
+                1000,
+                20
+        ).execute();
+    }
 
-    /*-------------------- Base Presenter Methods --------------------*/
-    //todo...
-	
-	/*--------------------  Presenter Methods --------------------*/
-    //todo...
+    public void onMapStartMoving() {
+    }
+
+    public void onLocationChanged(Location location) {
+        screen.focusMapOnLocation(location);
+    }
+
 
 }
