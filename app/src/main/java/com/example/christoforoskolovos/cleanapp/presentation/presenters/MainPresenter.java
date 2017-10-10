@@ -1,10 +1,10 @@
 package com.example.christoforoskolovos.cleanapp.presentation.presenters;
 
 import android.location.Location;
+import android.util.Log;
 
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
-import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
 import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -32,13 +32,19 @@ public class MainPresenter extends BasePresenter implements Presenter {
                 1000,
                 20
         ).execute();
+
+        Log.i("Chris", "onMapStopMoving");
     }
 
     public void onMapStartMoving() {
+
+        Log.i("Chris", "onMapStartMoving");
     }
 
     public void onLocationChanged(Location location) {
         screen.focusMapOnLocation(location);
+
+        Log.i("Chris", "onLocationChanged");
     }
 
 

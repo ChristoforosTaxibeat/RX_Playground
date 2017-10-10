@@ -1,5 +1,7 @@
 package com.example.christoforoskolovos.cleanapp.data.repository;
 
+import android.util.Log;
+
 import com.example.christoforoskolovos.cleanapp.data.clients.FoursquareClient;
 import com.example.christoforoskolovos.cleanapp.data.clients.RestClient;
 import com.example.christoforoskolovos.cleanapp.data.entities.responses.Foursquare.FoursquareVenuesSearchResponse;
@@ -66,11 +68,13 @@ public class FoursquareRepository implements FoursquareDataSource {
             @Override
             public void onResponse(Call<FoursquareVenuesSearchResponse> call, Response<FoursquareVenuesSearchResponse> response) {
                 // TODO: 10/10/2017 use mapper and return data to UseCase
+                Log.i("Chris", response.message());
             }
 
             @Override
             public void onFailure(Call<FoursquareVenuesSearchResponse> call, Throwable t) {
                 // TODO: 10/10/2017 use mapper and return data to UseCase
+                Log.i("Chris", "Error");
             }
         });
 
