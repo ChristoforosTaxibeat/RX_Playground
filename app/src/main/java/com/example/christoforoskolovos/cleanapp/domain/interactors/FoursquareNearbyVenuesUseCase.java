@@ -1,12 +1,15 @@
 package com.example.christoforoskolovos.cleanapp.domain.interactors;
 
+import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
 import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
+
+import io.reactivex.Observer;
 
 /**
  * Created by christoforoskolovos on 10/10/2017.
  */
 
-public class FoursquareNearbyVenuesUseCase implements UseCase {
+public class FoursquareNearbyVenuesUseCase implements UseCase<FoursquareResults> {
 
     private FoursquareDataSource dataSource;
     private double lat;
@@ -23,8 +26,7 @@ public class FoursquareNearbyVenuesUseCase implements UseCase {
     }
 
     @Override
-    public void execute() {
+    public void execute(Observer<FoursquareResults> observer) {
         dataSource.getNearbyVenues(lat, lng, radius, limit);
-        //// TODO: 10/10/2017 must return data to presenter
     }
 }

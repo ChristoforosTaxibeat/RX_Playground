@@ -5,8 +5,13 @@ import android.util.Log;
 
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
+import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
 import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
 import com.google.android.gms.maps.model.LatLng;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class MainPresenter extends BasePresenter implements Presenter {
 
@@ -25,13 +30,36 @@ public class MainPresenter extends BasePresenter implements Presenter {
 
     /*-------------------- Other Methods --------------------*/
     public void onMapStopMoving(LatLng target) {
+
+        Observer<FoursquareResults> FoursquareVenuesSearchResponseObserver = new Observer<FoursquareResults>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+                Log.i("Chris", "onSubscribe");
+            }
+
+            @Override
+            public void onNext(@NonNull FoursquareResults foursquareVenuesSearchResponse) {
+                Log.i("Chris", "onNext");
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Log.i("Chris", "onError");
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i("Chris", "onComplete");
+            }
+        };
+
         new FoursquareNearbyVenuesUseCase(
                 FoursquareRepository.getInstance(),
                 target.latitude,
                 target.longitude,
                 1000,
                 20
-        ).execute();
+        ).execute(FoursquareVenuesSearchResponseObserver);
 
         Log.i("Chris", "onMapStopMoving");
     }

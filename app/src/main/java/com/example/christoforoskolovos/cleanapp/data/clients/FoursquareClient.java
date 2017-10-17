@@ -4,6 +4,7 @@ import com.example.christoforoskolovos.cleanapp.data.entities.responses.Foursqua
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -15,5 +16,5 @@ import retrofit2.http.QueryMap;
 
 public interface FoursquareClient {
     @GET("venues/search")
-    Call<FoursquareVenuesSearchResponse> getVenues(@QueryMap Map<String, String> parameters);
+    Observable<FoursquareVenuesSearchResponse> getVenues(@QueryMap Map<String, String> parameters);
 }

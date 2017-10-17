@@ -18,6 +18,16 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+
 public class MainActivity extends BaseActivity implements MainScreen, View.OnClickListener, OnMapReadyCallback, LocationListener {
 
     /*-------------------- Variables --------------------*/
@@ -115,6 +125,67 @@ public class MainActivity extends BaseActivity implements MainScreen, View.OnCli
     @Override
     public void focusMapOnLocation(Location location) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(location.getLatitude(),location.getLongitude()), 16), 1000, null);
+                new LatLng(location.getLatitude(), location.getLongitude()), 16), 1000, null);
     }
+
+
+    void test() {
+
+        final List<String> strings = new ArrayList<String>();
+        strings.add("1");
+        strings.add("2");
+        strings.add("3");
+        strings.add("4");
+        strings.add("5");
+
+
+        //Create observable (full method)
+        Observable<String> observable1 = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                try {
+
+                    for (String string : strings) {
+                        emitter.onNext(string);
+                    }
+
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        });
+
+        //Create observable (Convinience method)
+        Observable<String> observable2 = Observable.fromIterable(strings);
+
+
+        //Create observer (subscriber)
+        Observer<String> observer1 = new Observer<String>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull String s) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        //Subscribe
+        observable1.subscribe(observer1);
+
+    }
+
 }

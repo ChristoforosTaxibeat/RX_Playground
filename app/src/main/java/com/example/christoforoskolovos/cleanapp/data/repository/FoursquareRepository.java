@@ -1,18 +1,15 @@
 package com.example.christoforoskolovos.cleanapp.data.repository;
 
-import android.util.Log;
-
 import com.example.christoforoskolovos.cleanapp.data.clients.FoursquareClient;
 import com.example.christoforoskolovos.cleanapp.data.clients.RestClient;
-import com.example.christoforoskolovos.cleanapp.data.entities.responses.Foursquare.FoursquareVenuesSearchResponse;
+import com.example.christoforoskolovos.cleanapp.data.entities.mappers.FoursquareVenuesSearchResponseMapper;
+import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
 import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
 
 /**
  * Created by christoforoskolovos on 10/10/2017.
@@ -37,7 +34,6 @@ public class FoursquareRepository implements FoursquareDataSource {
     final String CLIENT_SECRET = "5XD1J5PBYSSIMSUSKTOOD4SCRJG2RSOGBET2KD5HI5KKU2TA";
     final String VERSION = "20150301";
     private FoursquareClient client;
-    private Call<FoursquareVenuesSearchResponse> request;
 
 
     //--------------- Constructor ---------------
@@ -49,7 +45,7 @@ public class FoursquareRepository implements FoursquareDataSource {
 
     //--------------- Methods ---------------
     @Override
-    public void getNearbyVenues(double lat, double lng, int radius, int limit) {
+    public Observable<FoursquareResults> getNearbyVenues(double lat, double lng, int radius, int limit) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ll", lat + "," + lng);
         parameters.put("radius", Integer.toString(radius));
@@ -59,25 +55,9 @@ public class FoursquareRepository implements FoursquareDataSource {
         parameters.put("client_id", CLIENT_ID);
         parameters.put("v", VERSION);
 
-        if (request != null)
-            request.cancel();
+        return client.getVenues(parameters).map(new FoursquareVenuesSearchResponseMapper());
 
-        request = client.getVenues(parameters);
-
-        request.enqueue(new Callback<FoursquareVenuesSearchResponse>() {
-            @Override
-            public void onResponse(Call<FoursquareVenuesSearchResponse> call, Response<FoursquareVenuesSearchResponse> response) {
-                // TODO: 10/10/2017 use mapper and return data to UseCase
-                Log.i("Chris", response.message());
-            }
-
-            @Override
-            public void onFailure(Call<FoursquareVenuesSearchResponse> call, Throwable t) {
-                // TODO: 10/10/2017 use mapper and return data to UseCase
-                Log.i("Chris", "Error");
-            }
-        });
-
+        // TODO: 17/10/2017 Map Error
     }
 
 }
