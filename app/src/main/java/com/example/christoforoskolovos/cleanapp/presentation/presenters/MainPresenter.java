@@ -2,6 +2,7 @@ package com.example.christoforoskolovos.cleanapp.presentation.presenters;
 
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
@@ -45,6 +46,11 @@ public class MainPresenter extends BasePresenter implements Presenter {
             @Override
             public void onError(@NonNull Throwable e) {
                 Log.i("Chris", "onError");
+
+                if (e instanceof Error) { //todo not working correctly
+                    Error error = (Error) e;
+                    Toast.makeText(screen.getScreenContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

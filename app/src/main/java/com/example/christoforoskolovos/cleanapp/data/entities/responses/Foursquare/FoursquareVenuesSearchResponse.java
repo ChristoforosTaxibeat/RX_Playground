@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by christoforoskolovos on 10/10/2017.
  */
 
-public class FoursquareVenuesSearchResponse {
+public class FoursquareVenuesSearchResponse  {
 
     @SerializedName("meta")
     @Expose

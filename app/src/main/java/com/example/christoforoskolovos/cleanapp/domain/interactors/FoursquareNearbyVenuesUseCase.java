@@ -4,6 +4,8 @@ import com.example.christoforoskolovos.cleanapp.domain.models.responses.Foursqua
 import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by christoforoskolovos on 10/10/2017.
@@ -27,6 +29,10 @@ public class FoursquareNearbyVenuesUseCase implements UseCase<FoursquareResults>
 
     @Override
     public void execute(Observer<FoursquareResults> observer) {
-        dataSource.getNearbyVenues(lat, lng, radius, limit);
+        dataSource.getNearbyVenues(lat, lng, radius, limit)
+                .subscribeOn(Schedulers.io()) //todo optain it with another way through iterfaces
+                .observeOn(AndroidSchedulers.mainThread()) //todo optain it with another way through iterfaces
+                .subscribe(observer);
+
     }
 }
