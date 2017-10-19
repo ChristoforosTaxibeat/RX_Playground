@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
+import com.example.christoforoskolovos.cleanapp.domain.models.responses.Venue;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.errors.Error;
 import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,8 +41,18 @@ public class MainPresenter extends BasePresenter implements Presenter {
             }
 
             @Override
-            public void onNext(@NonNull FoursquareResults foursquareVenuesSearchResponse) {
+            public void onNext(@NonNull FoursquareResults foursquareResults) {
                 Log.i("Chris", "onNext");
+
+                String message = "No results";
+                if (foursquareResults != null && foursquareResults.getVenues().size() > 0) {
+                    message = "";
+                    for (Venue venue : foursquareResults.getVenues()) {
+                        message += venue.getName() + "\n";
+                    }
+                }
+
+                Toast.makeText(screen.getScreenContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
