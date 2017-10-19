@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
+import com.example.christoforoskolovos.cleanapp.domain.models.responses.errors.Error;
 import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
 import com.google.android.gms.maps.model.LatLng;
 

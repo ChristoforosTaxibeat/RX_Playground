@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity implements MainScreen, View.OnCli
 
     @Override
     public Context getScreenContext() {
-        return null;
+        return this;
     }
 
     @Override

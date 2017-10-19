@@ -52,11 +52,11 @@ public class ErrorMapper<T> implements Function<Throwable, ObservableSource<T>> 
                 error.setName("ERROR_UNAVAILABLE_SERVICE");
                 error.setMessage("Unavailable service.");
             } else {
-                error.setName("UNKNOWN_ERROR");
+                error.setName("UNKNOWN_ERROR_CODE");
                 error.setMessage("Unknown error.");
             }
         }
-        if (throwable instanceof IOException) {
+        else if (throwable instanceof IOException) {
             // A network or conversion error happened
             error.setName("NETWORK_OR_CONNECTION_ERROR");
             error.setMessage("Network or conversion error.");
@@ -66,6 +66,6 @@ public class ErrorMapper<T> implements Function<Throwable, ObservableSource<T>> 
             error.setMessage("Unknown error.");
         }
 
-        return Observable.error(new Error());
+        return Observable.error(error);
     }
 }
