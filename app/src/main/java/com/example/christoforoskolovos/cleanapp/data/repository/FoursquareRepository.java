@@ -1,10 +1,10 @@
 package com.example.christoforoskolovos.cleanapp.data.repository;
 
+import com.example.christoforoskolovos.cleanapp.GlobalObservables;
 import com.example.christoforoskolovos.cleanapp.data.clients.FoursquareClient;
 import com.example.christoforoskolovos.cleanapp.data.clients.RestClient;
 import com.example.christoforoskolovos.cleanapp.data.entities.mappers.ErrorMapper;
 import com.example.christoforoskolovos.cleanapp.data.entities.mappers.FoursquareVenuesSearchResponseMapper;
-import com.example.christoforoskolovos.cleanapp.data.entities.responses.Foursquare.FoursquareVenuesSearchResponse;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
 import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
 
@@ -47,7 +47,7 @@ public class FoursquareRepository implements FoursquareDataSource {
 
     //--------------- Methods ---------------
     @Override
-    public Observable<FoursquareResults> getNearbyVenues(double lat, double lng, int radius, int limit) {
+    public void getNearbyVenues(double lat, double lng, int radius, int limit) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ll", lat + "," + lng);
         parameters.put("radius", Integer.toString(radius));
@@ -57,9 +57,9 @@ public class FoursquareRepository implements FoursquareDataSource {
         parameters.put("client_id", CLIENT_ID);
         parameters.put("v", VERSION);
 
-        return client.getVenues(parameters)
+        GlobalObservables.getInstance().setObservable(client.getVenues(parameters)
                 .map(new FoursquareVenuesSearchResponseMapper())
-                .onErrorResumeNext(new ErrorMapper<FoursquareResults>());
+                .onErrorResumeNext(new ErrorMapper<FoursquareResults>()));
     }
 
 }

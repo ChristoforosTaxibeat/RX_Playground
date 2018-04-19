@@ -10,5 +10,5 @@ import io.reactivex.Observable;
 
 public interface FoursquareDataSource {
 
-    Observable<FoursquareResults> getNearbyVenues(double lat, double lng, int radius, int limit);
+    void getNearbyVenues(double lat, double lng, int radius, int limit);
 }

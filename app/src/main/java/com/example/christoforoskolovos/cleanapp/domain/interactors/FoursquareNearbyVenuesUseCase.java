@@ -29,10 +29,7 @@ public class FoursquareNearbyVenuesUseCase implements UseCase<FoursquareResults>
 
     @Override
     public void execute(Observer<FoursquareResults> observer) {
-        dataSource.getNearbyVenues(lat, lng, radius, limit)
-                .subscribeOn(Schedulers.io()) //todo optain it with another way through iterfaces
-                .observeOn(AndroidSchedulers.mainThread()) //todo optain it with another way through iterfaces
-                .subscribe(observer);
+        dataSource.getNearbyVenues(lat, lng, radius, limit);
 
     }
 }

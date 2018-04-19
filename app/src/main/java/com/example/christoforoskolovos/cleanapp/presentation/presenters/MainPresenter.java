@@ -4,6 +4,7 @@ import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.christoforoskolovos.cleanapp.GlobalObservables;
 import com.example.christoforoskolovos.cleanapp.data.repository.FoursquareRepository;
 import com.example.christoforoskolovos.cleanapp.domain.interactors.FoursquareNearbyVenuesUseCase;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
@@ -13,8 +14,10 @@ import com.example.christoforoskolovos.cleanapp.presentation.screens.MainScreen;
 import com.google.android.gms.maps.model.LatLng;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter implements Presenter {
 
@@ -78,6 +81,11 @@ public class MainPresenter extends BasePresenter implements Presenter {
                 1000,
                 20
         ).execute(FoursquareVenuesSearchResponseObserver);
+
+        GlobalObservables.getInstance().getObservable(FoursquareResults.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(FoursquareVenuesSearchResponseObserver);
 
         Log.i("Chris", "onMapStopMoving");
     }
