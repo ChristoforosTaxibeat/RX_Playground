@@ -5,6 +5,7 @@ import com.example.christoforoskolovos.cleanapp.data.clients.FoursquareClient;
 import com.example.christoforoskolovos.cleanapp.data.clients.RestClient;
 import com.example.christoforoskolovos.cleanapp.data.entities.mappers.ErrorMapper;
 import com.example.christoforoskolovos.cleanapp.data.entities.mappers.FoursquareVenuesSearchResponseMapper;
+import com.example.christoforoskolovos.cleanapp.data.entities.responses.Foursquare.FoursquareVenuesSearchResponse;
 import com.example.christoforoskolovos.cleanapp.domain.models.responses.FoursquareResults;
 import com.example.christoforoskolovos.cleanapp.domain.repository.FoursquareDataSource;
 
@@ -57,9 +58,11 @@ public class FoursquareRepository implements FoursquareDataSource {
         parameters.put("client_id", CLIENT_ID);
         parameters.put("v", VERSION);
 
-        GlobalObservables.getInstance().setObservable(client.getVenues(parameters)
+        Observable<FoursquareResults> obs = client.getVenues(parameters)
                 .map(new FoursquareVenuesSearchResponseMapper())
-                .onErrorResumeNext(new ErrorMapper<FoursquareResults>()));
+                .onErrorResumeNext(new ErrorMapper<FoursquareResults>());
+
+        GlobalObservables.getInstance().setObservable(FoursquareResults.class, obs);
     }
 
 }

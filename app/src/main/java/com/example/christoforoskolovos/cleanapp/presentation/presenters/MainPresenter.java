@@ -74,6 +74,14 @@ public class MainPresenter extends BasePresenter implements Presenter {
             }
         };
 
+
+
+        GlobalObservables.getInstance()
+                .getObservable(FoursquareResults.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(FoursquareVenuesSearchResponseObserver);
+
         new FoursquareNearbyVenuesUseCase(
                 FoursquareRepository.getInstance(),
                 target.latitude,
@@ -81,11 +89,6 @@ public class MainPresenter extends BasePresenter implements Presenter {
                 1000,
                 20
         ).execute(FoursquareVenuesSearchResponseObserver);
-
-        GlobalObservables.getInstance().getObservable(FoursquareResults.class)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(FoursquareVenuesSearchResponseObserver);
 
         Log.i("Chris", "onMapStopMoving");
     }
