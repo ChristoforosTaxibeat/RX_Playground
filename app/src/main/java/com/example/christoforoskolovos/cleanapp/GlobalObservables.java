@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 
 
@@ -42,12 +44,12 @@ public class GlobalObservables<T> {
         }
 
         if (result == null) {
-            result = new Observable<T>() {
+            result = Observable.create(new ObservableOnSubscribe<T>() {
                 @Override
-                protected void subscribeActual(Observer<? super T> observer) {
+                public void subscribe(ObservableEmitter<T> e) throws Exception {
 
                 }
-            };
+            });
         }
         return result;
     }
