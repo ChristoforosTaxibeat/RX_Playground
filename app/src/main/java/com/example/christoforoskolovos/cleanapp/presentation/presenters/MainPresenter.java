@@ -2,6 +2,7 @@ package com.example.christoforoskolovos.cleanapp.presentation.presenters;
 
 import android.location.Location;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.christoforoskolovos.cleanapp.GlobalObservables;
@@ -75,12 +76,39 @@ public class MainPresenter extends BasePresenter implements Presenter {
         };
 
 
+        GlobalObservables.getInstance()
+                .getObservable(View.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
         GlobalObservables.getInstance()
                 .getObservable(FoursquareResults.class)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(FoursquareVenuesSearchResponseObserver);
+
+
 
         new FoursquareNearbyVenuesUseCase(
                 FoursquareRepository.getInstance(),

@@ -30,19 +30,21 @@ public class GlobalObservables<T> {
         return instance;
     }
 
-    public <K> Observable<K> getObservable(Class<T> type) {
-        Observable<K> result = null;
+    public Observable<T> getObservable(Class<T> type) {
+        Observable<T> result = null;
 
         for (Map.Entry<Class<T>, Observable<T>> entry : typeObservables.entrySet()) {
             Class<T> key = entry.getKey();
             Observable<T> value = entry.getValue();
-            Log.i("a", key.getName());
+            if (key.getName().equals(type.getName())) {
+                result = value;
+            }
         }
 
-        if(result == null){
-            result = new Observable<K>() {
+        if (result == null) {
+            result = new Observable<T>() {
                 @Override
-                protected void subscribeActual(Observer<? super K> observer) {
+                protected void subscribeActual(Observer<? super T> observer) {
 
                 }
             };
